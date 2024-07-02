@@ -218,9 +218,11 @@ class enrol_fee_plugin extends enrol_plugin {
             echo '<p>'.get_string('nocost', 'enrol_fee').'</p>';
         } else {
 
+            $surcharge = \core_payment\helper::get_gateway_surcharge('paypal');
+
             $data = [
                 'isguestuser' => isguestuser() || !isloggedin(),
-                'cost' => \core_payment\helper::get_cost_as_string($cost, $instance->currency),
+                'cost' => \core_payment\helper::get_cost_as_string($cost, $instance->currency, $surcharge),
                 'instanceid' => $instance->id,
                 'description' => get_string('purchasedescription', 'enrol_fee',
                     format_string($course->fullname, true, ['context' => $context])),
